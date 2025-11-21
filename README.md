@@ -20,25 +20,7 @@ Lo scopo è imparare a usare GitHub in modo collaborativo, con branch, commit e 
 
 ## 🧭 Istruzioni passo per passo
 
-### 1. Clona il repository
-
-```bash
-git clone https://github.com/<nome-org-o-utente>/<nome-repo>.git
-cd <nome-repo>
-```
-
-### 2. Crea un branch personale
-
-```bash
-git checkout -b feature/nome-cognome
-```
-
-Esempio:
-```bash
-git checkout -b feature/luigi-petrossi
-```
-
-### 3. Crea la tua pagina HTML
+ Crea la tua pagina HTML
 
 Crea un file chiamato `nome-cognome.html` con questo contenuto:
 
@@ -56,27 +38,8 @@ Crea un file chiamato `nome-cognome.html` con questo contenuto:
 </html>
 ```
 
-### 4. Aggiungi il link in `index.html`
 
-Dentro la lista `<ul>`, aggiungi:
 
-```html
-<!-- Nome Cognome -->
-<li><a href="nome-cognome.html">Nome Cognome</a></li>
-```
-
-### 5. Salva e fai commit
-
-```bash
-git add .
-git commit -m "feat: aggiunta pagina personale Nome Cognome"
-```
-
-### 6. Push del branch
-
-```bash
-git push -u origin feature/nome-cognome
-```
 
 ### 7. Apri una Pull Request
 
