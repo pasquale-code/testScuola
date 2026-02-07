@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Banque du Louvre – Patrimoine & Lumière</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    /* RESET DI BASE */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg-main: #05060a;
+      --bg-alt: #0b0d14;
+      --accent-gold: #d2b47c;
+      --accent-soft: #f5f1e8;
+      --text-main: #f3f3f3;
+      --text-muted: #a9b0c2;
+      --border-soft: rgba(255,255,255,0.08);
+      --shadow-soft: 0 18px 60px rgba(0,0,0,0.8);
+      --radius-xl: 26px;
+      --radius-md: 16px;
+      --transition-fast: 0.25s ease;
+      --transition-med: 0.4s ease;
+      --max-width: 1180px;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #111320 0, #05060a 55%, #000 100%);
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* SFONDO ATMOSFERICO */
+    .ambient-layer {
+      position: fixed;
+      inset: -20vh -20vw;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(255,255,255,0.06), transparent 55%),
+        radial-gradient(circle at 80% 0%, rgba(210,180,120,0.12), transparent 60%),
+        radial-gradient(circle at 50% 90%, rgba(120,180,255,0.12), transparent 60%);
+      filter: blur(70px);
+      opacity: 0.7;
+      mix-blend-mode: screen;
+      pointer-events: none;
+      z-index: -2;
+      animation: ambientDrift 40s ease-in-out infinite alternate;
+    }
+
+    @keyframes ambientDrift {
+      0% { transform: translate3d(-3%, -2%, 0) scale(1); opacity: 0.55; }
+      50% { transform: translate3d(4%, 3%, 0) scale(1.1); opacity: 0.8; }
+      100% { transform: translate3d(-2%, 1%, 0) scale(1.03); opacity: 0.6; }
+    }
+
+    /* HEADER / NAVBAR */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(18px);
+      background: linear-gradient(to bottom, rgba(5,6,10,0.96), rgba(5,6,10,0.75), transparent);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .nav {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      color: var(--accent-gold);
+      box-shadow: 0 0 18px rgba(210,180,120,0.6);
+      background: radial-gradient(circle at 30% 0%, rgba(255,255,255,0.2), rgba(5,6,10,0.9));
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      font-size: 0.85rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .nav-links a {
+      color: var(--text-main);
+      text-decoration: none;
+      opacity: 0.8;
+      position: relative;
+      padding-bottom: 4px;
+      transition: opacity var(--transition-fast);
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 1px;
+      background: linear-gradient(to right, var(--accent-gold), #ffffff);
+      transition: width var(--transition-med);
+    }
+
+    .nav-links a:hover {
+      opacity: 1;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-cta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn {
+      border-radius: 999px;
+      padding: 9px 18px;
+      font-size: 0.8rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      border: 1px solid rgba(255,255,255,0.25);
+      background: rgba(5,6,10,0.7);
+      color: var(--text-main);
+      cursor: pointer;
+      transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-gold), #f5f1e8);
+      color: #111;
+      border-color: transparent;
+      box-shadow: 0 10px 30px rgba(210,180,120,0.5);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 40px rgba(210,180,120,0.7);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255,255,255,0.08);
+      transform: translateY(-1px);
+    }
+
+    /* LAYOUT GENERALE */
+    main {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+    }
+
+    section {
+      margin-bottom: 80px;
+      position: relative;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent-gold);
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-size: 2.1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .section-subtitle {
+      max-width: 620px;
+      color: var(--text-muted);
+      font-size: 0.98rem;
+    }
+
+    /* HERO CON PIRAMIDE LOUVRE */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 40px;
+      align-items: center;
+      padding-top: 30px;
+    }
+
+    .hero-text h1 {
+      font-size: clamp(2.6rem, 4vw, 3.4rem);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .hero-text p {
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      max-width: 520px;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 26px;
+    }
+
+    .badge {
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.16);
+      padding: 6px 12px;
+      font-size: 0.75rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      background: rgba(5,6,10,0.7);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .hero-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .hero-visual {
+      position: relative;
+      min-height: 320px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pyramid-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 420px;
+      aspect-ratio: 4 / 3;
+      border-radius: var(--radius-xl);
+      background: radial-gradient(circle at top, rgba(255,255,255,0.12), rgba(5,6,10,0.95));
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .pyramid-glow {
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255,255,255,0.25), transparent 60%),
+        radial-gradient(circle at 20% 80%, rgba(210,180,120,0.25), transparent 60%);
+      mix-blend-mode: screen;
+      filter: blur(40px);
+      opacity: 0.8;
+      animation: pyramidGlow 18s ease-in-out infinite alternate;
+    }
+
+    @keyframes pyramidGlow {
+      0% { transform: translate3d(-4%, 2%, 0) scale(1); opacity: 0.7; }
+      100% { transform: translate3d(4%, -2%, 0) scale(1.08); opacity: 0.95; }
+    }
+
+    .pyramid {
+      position: absolute;
+      left: 50%;
+      bottom: 12%;
+      transform: translateX(-50%);
+      width: 70%;
+      height: 60%;
+      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.4), rgba(210,180,120,0.1)),
+        linear-gradient(to top, rgba(5,6,10,0.9), rgba(5,6,10,0.2));
+      border: 1px solid rgba(255,255,255,0.5);
+      box-shadow:
+        0 0 40px rgba(255,255,255,0.35),
+        0 30px 60px rgba(0,0,0,0.9);
+      overflow: hidden;
+    }
+
+    .pyramid-lines {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(to right, rgba(255,255,255,0.18) 1px, transparent 1px),
+        linear-gradient(to top, rgba(255,255,255,0.18) 1px, transparent 1px);
+      background-size: 18px 18px;
+      opacity: 0.4;
+      mix-blend-mode: screen;
+      animation: gridDrift 26s linear infinite;
+    }
+
+    @keyframes gridDrift {
+      0% { transform: translate3d(0,0,0); }
+      100% { transform: translate3d(-18px,-18px,0); }
+    }
+
+    .pyramid-reflection {
+      position: absolute;
+      left: 50%;
+      bottom: -18%;
+      transform: translateX(-50%) scaleY(-1);
+      width: 70%;
+      height: 40%;
+      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+      background: linear-gradient(to bottom, rgba(255,255,255,0.18), transparent);
+      opacity: 0.35;
+      filter: blur(4px);
+    }
+
+    .pyramid-caption {
+      position: absolute;
+      bottom: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+    }
+
+    .pyramid-tag {
+      position: absolute;
+      top: 10%;
+      right: 10%;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.3);
+      background: rgba(5,6,10,0.7);
+      color: var(--accent-gold);
+    }
+
+    /* SEZIONE VALORI / PILLARS */
+    .pillars {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+      gap: 40px;
+      align-items: flex-start;
+    }
+
+    .pillars-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .pillar-card {
+      background: rgba(5,6,10,0.9);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-soft);
+      padding: 18px 18px 16px;
+      position: relative;
+      overflow: hidden;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
+    }
+
+    .pillar-card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(circle at 0 0, rgba(210,180,120,0.18), transparent 60%);
+      opacity: 0;
+      transition: opacity var(--transition-med), transform var(--transition-med);
+      transform: translate3d(-20%, -20%, 0);
+      pointer-events: none;
+    }
+
+    .pillar-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.9);
+      border-color: rgba(255,255,255,0.18);
+      background: radial-gradient(circle at top, rgba(255,255,255,0.06), rgba(5,6,10,0.95));
+    }
+
+    .pillar-card:hover::before {
+      opacity: 1;
+      transform: translate3d(0,0,0);
+    }
+
+    .pillar-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent-gold);
+      margin-bottom: 6px;
+    }
+
+    .pillar-title {
+      font-size: 1rem;
+      margin-bottom: 6px;
+    }
+
+    .pillar-text {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .pillars-meta {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 16px;
+    }
+
+    .pillars-meta strong {
+      color: var(--accent-soft);
+    }
+
+    /* SEZIONE SERVIZI */
+    .services-grid {
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 30px;
+    }
+
+    .service-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+
+    .service-card {
+      background: rgba(5,6,10,0.9);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-soft);
+      padding: 18px 18px 16px;
+      transition: transform var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
+    }
+
+    .service-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(255,255,255,0.18);
+      background: radial-gradient(circle at top, rgba(255,255,255,0.05), rgba(5,6,10,0.95));
+    }
+
+    .service-card h3 {
+      font-size: 0.98rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .service-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .service-highlight {
+      background: radial-gradient(circle at top, rgba(255,255,255,0.06), rgba(5,6,10,0.96));
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(255,255,255,0.16);
+      padding: 22px 20px;
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-highlight::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: conic-gradient(
+        from 180deg,
+        rgba(210,180,120,0.2),
+        rgba(255,255,255,0.05),
+        rgba(120,180,255,0.2),
+        rgba(210,180,120,0.2)
+      );
+      mix-blend-mode: screen;
+      opacity: 0.4;
+      animation: rotateGlow 26s linear infinite;
+    }
+
+    @keyframes rotateGlow {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .service-highlight-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .service-highlight h3 {
+      font-size: 1rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .service-highlight p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .service-highlight ul {
+      list-style: none;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .service-highlight li::before {
+      content: "•";
+      margin-right: 6px;
+      color: var(--accent-gold);
+    }
+
+    /* SEZIONE STORIA / TIMELINE */
+    .timeline {
+      margin-top: 30px;
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-soft);
+      background: rgba(5,6,10,0.96);
+      padding: 24px 20px;
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.2), transparent);
+      opacity: 0.6;
+    }
+
+    .timeline-item {
+      position: relative;
+      padding: 16px 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .timeline-item:nth-child(odd) .timeline-content-left {
+      text-align: right;
+    }
+
+    .timeline-year {
+      font-size: 0.8rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent-gold);
+      margin-bottom: 4px;
+    }
+
+    .timeline-title {
+      font-size: 0.98rem;
+      margin-bottom: 4px;
+    }
+
+    .timeline-text {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent-gold);
+      box-shadow: 0 0 18px rgba(210,180,120,0.9);
+    }
+
+    /* SEZIONE CLIENTI / TESTIMONIANZE */
+    .clients {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 30px;
+      align-items: flex-start;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .stat-card {
+      background: rgba(5,6,10,0.9);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-soft);
+      padding: 16px 16px 14px;
+    }
+
+    .stat-value {
+      font-size: 1.4rem;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+
+    .testimonials {
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-soft);
+      background: rgba(5,6,10,0.96);
+      padding: 20px 18px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .testimonial-quote {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .testimonial-author {
+      font-size: 0.85rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent-soft);
+    }
+
+    .testimonial-role {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* SEZIONE CONTATTI / MODULO */
+    .contact {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+      gap: 30px;
+      align-items: flex-start;
+    }
+
+    .contact-card {
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-soft);
+      background: rgba(5,6,10,0.96);
+      padding: 22px 20px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .contact-card h3 {
+      font-size: 1rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .contact-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+      margin-bottom: 10px;
+    }
+
+    .contact-item {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .contact-item strong {
+      color: var(--accent-soft);
+    }
+
+    form {
+      display: grid;
+      gap: 12px;
+    }
+
+    label {
+      font-size: 0.8rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    input, textarea, select {
+      width: 100%;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(5,6,10,0.9);
+      color: var(--text-main);
+      padding: 10px 14px;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+    }
+
+    textarea {
+      border-radius: 18px;
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 0 1px rgba(210,180,120,0.5);
+      background: rgba(5,6,10,0.95);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+    }
+
+    .form-note {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 26px 20px 40px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      background: radial-gradient(circle at top, rgba(255,255,255,0.04), rgba(5,6,10,1));
+    }
+
+    .footer-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 20px;
+      align-items: center;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      opacity: 0.8;
+      transition: opacity var(--transition-fast);
+    }
+
+    .footer-links a:hover {
+      opacity: 1;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 960px) {
+      .hero,
+      .pillars,
+      .services-grid,
+      .clients,
+      .contact,
+      .footer-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .timeline::before {
+        left: 10px;
+      }
+
+      .timeline-item {
+        grid-template-columns: 1fr;
+        padding-left: 26px;
+      }
+
+      .timeline-item:nth-child(odd) .timeline-content-left {
+        text-align: left;
+      }
+
+      .timeline-dot {
+        left: 10px;
+      }
+
+      .nav {
+        flex-wrap: wrap;
+      }
+
+      .nav-links {
+        display: none; /* per semplicità, niente menu mobile complesso */
+      }
+
+      .nav-cta {
+        margin-left: auto;
+      }
+    }
+
+    @media (max-width: 640px) {
+      main {
+        padding-top: 24px;
+      }
+
+      .hero {
+        padding-top: 10px;
+      }
+
+      .pyramid-wrapper {
+        max-width: 100%;
+      }
+
+      header {
+        backdrop-filter: blur(12px);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="ambient-layer"></div>
+
+<header>
+  <div class="nav">
+    <div class="logo">
+      <div class="logo-mark">BL</div>
+      <span>Banque du Louvre</span>
+    </div>
+    <nav class="nav-links">
+      <a href="#istituto">Istituto</a>
+      <a href="#servizi">Servizi</a>
+      <a href="#storia">Storia</a>
+      <a href="#clienti">Clienti</a>
+      <a href="#contatti">Contatti</a>
+    </nav>
+    <div class="nav-cta">
+      <button class="btn btn-outline">Area Riservata</button>
+      <button class="btn btn-primary">Diventa Cliente</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="hero-text">
+      <div class="section-label">Paris · Milano · Genève</div>
+      <h1>Patrimoine &amp; Lumière</h1>
+      <p>
+        Banque du Louvre unisce la precisione della finanza contemporanea alla sobria grandezza
+        del patrimonio europeo. Un luogo dove il capitale viene curato come un’opera d’arte:
+        con tempo, competenza e luce giusta.
+      </p>
+
+      <div class="hero-badges">
+        <div class="badge">Private Banking</div>
+        <div class="badge">Family Office</div>
+        <div class="badge">Wealth Advisory</div>
+      </div>
+
+      <div class="hero-actions">
+        <button class="btn btn-primary">Prenota un incontro riservato</button>
+        <button class="btn btn-outline">Scarica la brochure istituzionale</button>
+        <span class="hero-note">Risposta entro 24 ore lavorative.</span>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="pyramid-wrapper">
+        <div class="pyramid-glow"></div>
+        <div class="pyramid">
+          <div class="pyramid-lines"></div>
+        </div>
+        <div class="pyramid-reflection"></div>
+        <div class="pyramid-caption">Cour Napoléon · Louvre</div>
+        <div class="pyramid-tag">Fondato 1823</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ISTITUTO / VALORI -->
+  <section id="istituto">
+    <div class="section-label">Istituto</div>
+    <div class="section-title">Un’istituzione di luce misurata</div>
+    <div class="section-subtitle">
+      Non siamo una banca per tutti. Siamo una banca per chi considera il proprio patrimonio
+      una responsabilità culturale, oltre che finanziaria. Ogni relazione è costruita su
+      discrezione, continuità e una visione che supera il singolo ciclo economico.
+    </div>
+
+    <div class="pillars">
+      <div>
+        <p class="pillars-meta">
+          <strong>Un solo interlocutore</strong> coordina un ecosistema di specialisti:
+          analisti, fiscalisti, esperti legali e consulenti d’investimento. Il risultato è
+          una visione integrata, priva di frizioni, che riduce il rumore e amplifica la
+          qualità delle decisioni.
+        </p>
+        <p class="pillars-meta">
+          Ogni portafoglio viene disegnato come una sala espositiva: pochi elementi, scelti
+          con rigore, illuminati con cura. Nessun eccesso, nessuna opacità.
+        </p>
+      </div>
+
+      <div class="pillars-list">
+        <div class="pillar-card">
+          <div class="pillar-label">01 · Discrezione</div>
+          <div class="pillar-title">Riservatezza strutturale</div>
+          <div class="pillar-text">
+            Architetture di sicurezza multilivello, accessi limitati e protocolli di
+            comunicazione cifrati. La riservatezza non è una promessa, ma un’infrastruttura.
+          </div>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-label">02 · Continuità</div>
+          <div class="pillar-title">Oltre le generazioni</div>
+          <div class="pillar-text">
+            Pianificazione successoria, governance familiare e strumenti per preservare
+            identità e valori, non solo asset.
+          </div>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-label">03 · Curatela</div>
+          <div class="pillar-title">Selezione radicale</div>
+          <div class="pillar-text">
+            Pochi strumenti, analizzati in profondità. Ogni investimento deve giustificare
+            la propria presenza, come un’opera in una collezione permanente.
+          </div>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-label">04 · Trasparenza</div>
+          <div class="pillar-title">Luce sui dettagli</div>
+          <div class="pillar-text">
+            Reportistica chiara, scenari simulati e accesso diretto ai team di ricerca.
+            Nessuna zona d’ombra, solo complessità spiegata.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVIZI -->
+  <section id="servizi">
+    <div class="section-label">Servizi</div>
+    <div class="section-title">Architetture finanziarie su misura</div>
+    <div class="section-subtitle">
+      Dalla gestione patrimoniale classica alle strutture multi‑giurisdizionali, ogni
+      soluzione nasce da un’analisi profonda del contesto personale, familiare e imprenditoriale.
+    </div>
+
+    <div class="services-grid">
+      <div class="service-list">
+        <div class="service-card">
+          <h3>Gestione patrimoniale discrezionale</h3>
+          <p>
+            Mandati su misura, con livelli di rischio calibrati e strategie che integrano
+            mercati quotati, strumenti alternativi e soluzioni tematiche.
+          </p>
+        </div>
+
+        <div class="service-card">
+          <h3>Private Banking internazionale</h3>
+          <p>
+            Strutture multi‑booking center, ottimizzazione valutaria e coordinamento con
+            consulenti locali per patrimoni distribuiti in più Paesi.
+          </p>
+        </div>
+
+        <div class="service-card">
+          <h3>Family Office &amp; governance</h3>
+          <p>
+            Supporto nella definizione di consigli di famiglia, patti di governance e
+            strumenti per la continuità imprenditoriale.
+          </p>
+        </div>
+
+        <div class="service-card">
+          <h3>Arte &amp; collezioni</h3>
+          <p>
+            Advisory su collezioni d’arte, archiviazione, assicurazione e pianificazione
+            successoria di patrimoni artistici complessi.
+          </p>
+        </div>
+
+        <div class="service-card">
+          <h3>Strutture dedicate a imprenditori</h3>
+          <p>
+            Soluzioni per la gestione della liquidità derivante da exit, M&amp;A e
+            operazioni straordinarie, con attenzione a tempi e fiscalità.
+          </p>
+        </div>
+
+        <div class="service-card">
+          <h3>Filantropia strategica</h3>
+          <p>
+            Creazione e gestione di fondazioni, veicoli filantropici e programmi di
+            impatto sociale coerenti con i valori familiari.
+          </p>
+        </div>
+      </div>
+
+      <div class="service-highlight">
+        <div class="service-highlight-inner">
+          <h3>Programma “Galerie Privée”</h3>
+          <p>
+            Un percorso dedicato ai patrimoni superiori a 25 milioni di euro, che integra
+            gestione finanziaria, consulenza patrimoniale e accesso a opportunità
+            riservate, in un’unica relazione coordinata.
+          </p>
+          <ul>
+            <li>Team dedicato con massimo 30 relazioni per banker.</li>
+            <li>Accesso a club deal selezionati e strategie alternative.</li>
+            <li>Incontri periodici presso sedi museali partner.</li>
+            <li>Reportistica personalizzata, con analisi di scenario su misura.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORIA / TIMELINE -->
+  <section id="storia">
+    <div class="section-label">Storia</div>
+    <div class="section-title">Due secoli di luce controllata</div>
+    <div class="section-subtitle">
+      La nostra storia non è fatta di slogan, ma di continuità. Ogni decade ha aggiunto
+      un livello di competenza, senza mai sacrificare la sobrietà.
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-content-left">
+          <div class="timeline-year">1823</div>
+          <div class="timeline-title">Origini parigine</div>
+          <div class="timeline-text">
+            Nasce una piccola maison finanziaria a pochi passi dal Louvre, dedicata alla
+            gestione dei patrimoni di famiglie di mercanti e collezionisti.
+          </div>
+        </div>
+        <div class="timeline-content-right"></div>
+        <div class="timeline-dot"></div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-content-left"></div>
+        <div class="timeline-content-right">
+          <div class="timeline-year">1905</div>
+          <div class="timeline-title">Espansione europea</div>
+          <div class="timeline-text">
+            Apertura delle prime relazioni strutturate con famiglie italiane e svizzere,
+            con un focus su patrimoni industriali e immobiliari.
+          </div>
+        </div>
+        <div class="timeline-dot"></div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-content-left">
+          <div class="timeline-year">1978</div>
+          <div class="timeline-title">Nuova generazione</div>
+          <div class="timeline-text">
+            Ingresso di una nuova generazione di partner, con competenze in finanza
+            internazionale e mercati dei capitali.
+          </div>
+        </div>
+        <div class="timeline-content-right"></div>
+        <div class="timeline-dot"></div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-content-left"></div>
+        <div class="timeline-content-right">
+          <div class="timeline-year">2001</div>
+          <div class="timeline-title">Architetture digitali</div>
+          <div class="timeline-text">
+            Implementazione di infrastrutture digitali proprietarie, con accesso sicuro
+            ai portafogli e reportistica in tempo reale.
+          </div>
+        </div>
+        <div class="timeline-dot"></div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-content-left">
+          <div class="timeline-year">Oggi</div>
+          <div class="timeline-title">Patrimoine &amp; Lumière</div>
+          <div class="timeline-text">
+            Una banca privata che integra tradizione, tecnologia e una visione curatoriale
+            del patrimonio, con sedi a Parigi, Milano e Ginevra.
+          </div>
+        </div>
+        <div class="timeline-content-right"></div>
+        <div class="timeline-dot"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLIENTI / STATISTICHE / TESTIMONIANZE -->
+  <section id="clienti">
+    <div class="section-label">Clienti</div>
+    <div class="section-title">Relazioni selezionate, non numeri</div>
+    <div class="section-subtitle">
+      Preferiamo crescere in profondità, non in larghezza. Ogni relazione è seguita da
+      un team che conosce contesto, storia e sensibilità del cliente.
+    </div>
+
+    <div class="clients">
+      <div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-value">€ 38 mld</div>
+            <div class="stat-label">Patrimoni in consulenza</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">&lt; 500</div>
+            <div class="stat-label">Relazioni attive</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">3</div>
+            <div class="stat-label">Sedi principali</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">12 anni</div>
+            <div class="stat-label">Durata media relazione</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonials">
+        <div class="testimonial-quote">
+          “La differenza non è solo nei risultati, ma nel modo in cui ogni decisione viene
+          spiegata, contestualizzata e documentata. È come avere un curatore per il proprio
+          patrimonio.”
+        </div>
+        <div class="testimonial-author">Cliente “Galerie Privée”</div>
+        <div class="testimonial-role">Imprenditore, settore manifatturiero · Italia</div>
+
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,0.08);margin:14px 0;">
+
+        <div class="testimonial-quote">
+          “La banca è diventata un’estensione naturale del nostro family office, non un
+          interlocutore esterno. Questo cambia tutto.”
+        </div>
+        <div class="testimonial-author">Family Office multi‑generazionale</div>
+        <div class="testimonial-role">Svizzera · Clientela UHNW</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTATTI / MODULO -->
+  <section id="contatti">
+    <div class="section-label">Contatti</div>
+    <div class="section-title">Un primo incontro, senza impegno</div>
+    <div class="section-subtitle">
+      Ogni nuova relazione inizia con un ascolto approfondito. Nessuna proposta standard,
+      nessun documento pre‑compilato. Solo domande giuste e tempo dedicato.
+    </div>
+
+    <div class="contact">
+      <div class="contact-card">
+        <h3>Sedi principali</h3>
+        <p>
+          Riceviamo esclusivamente su appuntamento, in ambienti pensati per garantire
+          riservatezza e tempo di qualità.
+        </p>
+
+        <div class="contact-grid">
+          <div class="contact-item">
+            <strong>Parigi</strong><br>
+            Rue de Rivoli, Cour Napoléon<br>
+            75001 · Louvre
+          </div>
+          <div class="contact-item">
+            <strong>Milano</strong><br>
+            Quadrilatero della Moda<br>
+            20121 · Centro Storico
+          </div>
+          <div class="contact-item">
+            <strong>Ginevra</strong><br>
+            Quai du Mont‑Blanc<br>
+            1201 · Lac Léman
+          </div>
+        </div>
+
+        <p class="contact-item">
+          <strong>E‑mail riservata</strong><br>
+          private@banquedulouvre.com
+        </p>
+        <p class="contact-item">
+          <strong>Linea dedicata</strong><br>
+          +33 (0)1 23 45 67 89
+        </p>
+      </div>
+
+      <div class="contact-card">
+        <h3>Richiedi un incontro</h3>
+        <p>
+          Compila il modulo con poche informazioni essenziali. Ti contatteremo per
+          definire modalità, luogo e livello di approfondimento dell’incontro.
+        </p>
+
+        <form>
+          <div class="form-row">
+            <div>
+              <label for="nome">Nome e cognome</label>
+              <input id="nome" type="text" placeholder="Inserisci il tuo nome completo">
+            </div>
+            <div>
+              <label for="email">E‑mail</label>
+              <input id="email" type="email" placeholder="nome@dominio.com">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div>
+              <label for="paese">Paese di residenza</label>
+              <input id="paese" type="text" placeholder="Italia, Svizzera, Francia...">
+            </div>
+            <div>
+              <label for="patrimonio">Patrimonio finanziario indicativo</label>
+              <select id="patrimonio">
+                <option value="">Seleziona una fascia</option>
+                <option>&lt; 5 milioni €</option>
+                <option>5 – 25 milioni €</option>
+                <option>25 – 100 milioni €</option>
+                <option>&gt; 100 milioni €</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label for="interesse">Ambito di interesse principale</label>
+            <select id="interesse">
+              <option value="">Seleziona</option>
+              <option>Private Banking</option>
+              <option>Family Office</option>
+              <option>Gestione post‑exit</option>
+              <option>Arte &amp; collezioni</option>
+              <option>Altro / Da definire</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="messaggio">Note aggiuntive</label>
+            <textarea id="messaggio" placeholder="Condividi il contesto, le tue priorità o eventuali vincoli specifici."></textarea>
+          </div>
+
+          <div class="form-note">
+            Inviando la richiesta, confermi di aver letto l’informativa sulla privacy e
+            acconsenti al trattamento dei dati per finalità di contatto.
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="margin-top:8px;">
+            Invia richiesta riservata
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      © 2026 Banque du Louvre · Tutti i diritti riservati<br>
+      Istituto di credito privato soggetto alla vigilanza delle autorità competenti.
+    </div>
+    <div class="footer-links">
+      <a href="#top">Torna in alto</a>
+      <a href="#">Informativa privacy</a>
+      <a href="#">Termini legali</a>
+      <a href="#">Cookie</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
