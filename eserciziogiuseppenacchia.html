@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+Conto alla romana <br><br>
+
+<input id="n1" placeholder="Totale conto">
+<input id="n2" placeholder="Numero persone">
+<button onclick="verifica()">Calcola</button>
+
+<p id="ris"></p>
+
+<script>
+function verifica() {
+  var conto = document.getElementById("n1").value;
+  var persone = document.getElementById("n2").value;
+
+  var risultato = conto / persone;
+
+  document.getElementById("ris").innerText =
+    "Ognuno paga: " + risultato;
+}
+</script>
+
+</body>
+</html>
